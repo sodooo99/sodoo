@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You!</title>
+  <style>
+    body {
+      background-color: #333;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+      padding-top: 100px;
+    }
+    h1 { color: orange; }
+    a {
+      color: orange;
+      text-decoration: none;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Thank You!</h1>
+<p id="message"></p>
+<a href="index.html">Back to Menu</a>
+
+<script>
+  const name = localStorage.getItem("customerName") || "Customer";
+  const foods = JSON.parse(localStorage.getItem("customerFoods") || "[]");
+
+  const messageEl = document.getElementById("message");
+  messageEl.innerHTML = `Thank you, <strong>${name}</strong>!<br>
+  You ordered: ${foods.length > 0 ? foods.join(", ") : "No items"}.<br>
+  Your delicious KFC meal will be delivered soon 🍔🍟🍕`;
+</script>
+
+</body>
+</html>

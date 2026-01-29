@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KFC Mongolia</title>
+  <style>
+    body {
+      background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8IOKq6ooE4Dt0Rhb0TiJs9Aebcqn-i46K1g&s");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .categories a {
+      margin: 0 10px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      color: black;
+      background-color: rgba(255, 255, 255, 0.8);
+      min-width: 300px;
+    }
+
+    th, td {
+      border: 2px solid black;
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    form {
+      margin: 20px auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      display: inline-block;
+      border-radius: 10px;
+      color: white;
+    }
+
+    input, textarea, button {
+      margin-top: 5px;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      cursor: pointer;
+      background-color: orange;
+      border: none;
+      border-radius: 5px;
+    }
+
+    h1 { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+<!-- Login Protection -->
+<script>
+  if(localStorage.getItem("loggedIn") !== "true"){
+    window.location.href = "login.html";
+  }
+</script>
+
+<a href="login.html" onclick="localStorage.removeItem('loggedIn')">Logout</a>
+
+<div class="categories">
+  <a href="#fastfood">🍔 Fast Food</a>
+  <a href="#drinks">🥤 Drinks</a>
+  <a href="#japanese">🍣 Japanese</a>
+  <a href="#korean">🍜 Korean</a>
+  <a href="#dessert">🍰 Dessert</a>
+</div>
+
+<h1>Our Menu</h1>
+
+<table>
+  <tr>
+    <th>Food</th>
+    <th>Price</th>
+  </tr>
+  <tr>
+    <td>Burger 🍔</td>
+    <td>$5</td>
+  </tr>
+  <tr>
+    <td>Pizza 🍕</td>
+    <td>$8</td>
+  </tr>
+  <tr>
+    <td>Fries 🍟</td>
+    <td>$3</td>
+  </tr>
+  <tr>
+    <td>Tuna Sushi 🍣</td>
+    <td>$10</td>
+  </tr>
+</table>
+
+<form id="orderForm">
+  Name: <input type="text" name="name" placeholder="Your Name" required><br><br>
+
+  <input type="checkbox" name="food" value="Burger"> Burger 🍔<br>
+  <input type="checkbox" name="food" value="Pizza"> Pizza 🍕<br>
+  <input type="checkbox" name="food" value="Fries"> Fries 🍟<br>
+  <input type="checkbox" name="food" value="Tuna Sushi"> Tuna Sushi 🍣<br><br>
+
+  Address:<br>
+  <textarea name="address" placeholder="Your Address" required></textarea><br><br>
+
+  <button type="submit">Place Order</button>
+</form>
+
+<!-- Background Music -->
+<audio id="bgmusic" loop>
+  <source src="song.mp3.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const music = document.getElementById("bgmusic");
+  document.body.addEventListener("click", function once() {
+    music.play();
+    music.volume = 0.2;
+    document.body.removeEventListener("click", once);
+  });
+
+  const orderForm = document.getElementById("orderForm");
+  orderForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    // save customer info in localStorage for thankyou page
+    const name = orderForm.querySelector('input[name="name"]').value;
+    const address = orderForm.querySelector('textarea[name="address"]').value;
+    const foods = Array.from(orderForm.querySelectorAll('input[name="food"]:checked')).map(cb => cb.value);
+
+    localStorage.setItem("customerName", name);
+    localStorage.setItem("customerAddress", address);
+    localStorage.setItem("customerFoods", JSON.stringify(foods));
+
+    window.location.href = "thankyou.html";
+  });
+</script>
+
+</body>
+</html>
